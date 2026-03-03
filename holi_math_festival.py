@@ -7,9 +7,9 @@ class HoliMathFestival(ThreeDScene):
 
         self.camera.background_color = "#111111"
 
-        # --------------------------------
-        # Color Burst Function
-        # --------------------------------
+        # ------------------------------------------------
+        # 🌈 Color Burst Function
+        # ------------------------------------------------
         def color_burst():
             dots = VGroup()
             colors = [RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE]
@@ -26,9 +26,9 @@ class HoliMathFestival(ThreeDScene):
                 dots.add(dot)
             return dots
 
-        # --------------------------------
+        # ------------------------------------------------
         # 1️⃣ Happy Holi Intro
-        # --------------------------------
+        # ------------------------------------------------
         title = Tex(r"\textbf{Happy Holi @ Math}")
         title.scale(1.5)
         title.set_color_by_gradient(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
@@ -38,9 +38,9 @@ class HoliMathFestival(ThreeDScene):
         self.wait(2)
         self.play(FadeOut(title))
 
-        # --------------------------------
+        # ------------------------------------------------
         # 2️⃣ Torus + Fundamental Group
-        # --------------------------------
+        # ------------------------------------------------
         self.set_camera_orientation(phi=70*DEGREES, theta=-45*DEGREES)
 
         torus = Torus()
@@ -52,15 +52,16 @@ class HoliMathFestival(ThreeDScene):
         formula = Tex(r"$\pi_1(T^2) = \mathbb{Z} \oplus \mathbb{Z}$")
         formula.to_edge(UP)
         self.add_fixed_in_frame_mobjects(formula)
+
         self.play(Write(formula))
         self.wait(3)
 
         self.play(FadeOut(torus), FadeOut(formula))
         self.stop_ambient_camera_rotation()
 
-        # --------------------------------
+        # ------------------------------------------------
         # 3️⃣ Category Diagram
-        # --------------------------------
+        # ------------------------------------------------
         self.move_camera(phi=0, theta=0)
 
         M = Tex("$M$").shift(LEFT*3)
@@ -74,12 +75,12 @@ class HoliMathFestival(ThreeDScene):
         self.wait(3)
         self.play(FadeOut(diagram))
 
-        # --------------------------------
-        # 4️⃣ Möbius Strip
-        # --------------------------------
+        # ------------------------------------------------
+        # 4️⃣ Möbius Strip (Correct Surface)
+        # ------------------------------------------------
         self.set_camera_orientation(phi=70*DEGREES, theta=-30*DEGREES)
 
-        mobius = ParametricSurface(
+        mobius = Surface(
             lambda u, v: np.array([
                 (1 + v*np.cos(u/2))*np.cos(u),
                 (1 + v*np.cos(u/2))*np.sin(u),
@@ -87,6 +88,7 @@ class HoliMathFestival(ThreeDScene):
             ]),
             u_range=[0, TAU],
             v_range=[-0.3, 0.3],
+            resolution=(32, 16)
         )
 
         mobius.set_color_by_gradient(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
@@ -94,25 +96,26 @@ class HoliMathFestival(ThreeDScene):
         self.play(Create(mobius), run_time=3)
         self.begin_ambient_camera_rotation(rate=0.2)
 
-        text2 = Tex(r"\textbf{Non-Orientable!}")
-        text2.to_edge(DOWN)
-        self.add_fixed_in_frame_mobjects(text2)
+        non_text = Tex(r"\textbf{Non-Orientable!}")
+        non_text.to_edge(DOWN)
+        self.add_fixed_in_frame_mobjects(non_text)
 
-        self.play(Write(text2))
+        self.play(Write(non_text))
         self.wait(3)
 
-        self.play(FadeOut(mobius), FadeOut(text2))
+        self.play(FadeOut(mobius), FadeOut(non_text))
         self.stop_ambient_camera_rotation()
 
-        # --------------------------------
+        # ------------------------------------------------
         # 5️⃣ Hyperbolic Surface Final
-        # --------------------------------
+        # ------------------------------------------------
         self.set_camera_orientation(phi=65*DEGREES, theta=-45*DEGREES)
 
         surface = Surface(
             lambda u, v: np.array([u, v, u**2 - v**2]),
             u_range=[-2, 2],
             v_range=[-2, 2],
+            resolution=(32, 32)
         )
 
         surface.set_color_by_gradient(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
@@ -125,5 +128,6 @@ class HoliMathFestival(ThreeDScene):
         final.set_color_by_gradient(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
 
         self.add_fixed_in_frame_mobjects(final)
+
         self.play(Write(final))
         self.wait(4)
